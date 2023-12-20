@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+// model Teacher{
+//   id String @id @default(uuid())
+//   username String
+//   phone String
+//   specialization String
+//   classRoom_id String
+//   classRoom ClassRoom? @relation(fields: [classRoom_id],references: [id])
+
+
+// }
+// model Student{
+//   id String @id @default(uuid())
+//   username String
+//   classRoom_id String
+//     classRoom ClassRoom? @relation(fields: [classRoom_id],references: [id])
+
+
+
+// }
+// model ClassRoom {
+//  id String @id@default(uuid())
+//  name String
+//  student Student[]
+//  teacher Teacher[]
+// }
+
+model User {
+  id        String    @id @default(uuid())
+  username  String
+  passwors  String
+  role      String 
+  comments  Comment []
+  createdAt DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+enum Genre {
+  COMEDY
+  ACTION
+  ROMANCE
+}
+
+
+model Movie{
+  id String @id @default(uuid())
+  title String
+  duration Int
+  rating Float
+  genre Genre
+  release_Datee DateTime @default(now())
+  comments Comment []
+
+}
+
+model Comment{
+  id String @id @default(uuid())
+  text String
+  movieid String
+  movie Movie @relation(fields: [movieid], references: [id])
+  userid String
+  user User @relation(fields: [userid], references: [id])
+
+}
